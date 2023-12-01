@@ -4,10 +4,9 @@ import Navbar from "./navbar";
 import { WeatherDataContext } from "./weatherdatacontext";
 
 function page() {
-  const weatherContext = useContext(WeatherDataContext);
-
-  const { zip, setZip, city, setCity, temperature, setTemperature } =
-    weatherContext;
+  const [zip, setZip] = useState("");
+  const [city, setCity] = useState(null);
+  const [temperature, setTemperature] = useState(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setZip(e.target.value);
@@ -29,45 +28,47 @@ function page() {
   };
 
   return (
-    <div className="my-5">
-      <Navbar />
-
+    <WeatherDataContext.Provider value={temperature}>
       <div className="my-5">
-        <form onSubmit={handleSubmit}>
-          <input
-            value={zip}
-            type="text"
-            onChange={handleChange}
-            className="input-field"
-          />
+        <Navbar />
 
-          <button type="submit" className="submit-button">
-            Submit
-          </button>
-        </form>
-      </div>
-
-      {city && temperature && (
         <div className="my-5">
-          <table>
-            <thead>
-              <tr>
-                <th>Zip Code</th>
-                <th>City</th>
-                <th>Temperature</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{zip}</td>
-                <td>{city}</td>
-                <td>{temperature}</td>
-              </tr>
-            </tbody>
-          </table>
+          <form onSubmit={handleSubmit}>
+            <input
+              value={zip}
+              type="text"
+              onChange={handleChange}
+              className="input-field"
+            />
+
+            <button type="submit" className="submit-button">
+              Submit
+            </button>
+          </form>
         </div>
-      )}
-    </div>
+
+        {city && temperature && (
+          <div className="my-5">
+            <table>
+              <thead>
+                <tr>
+                  <th>Zip Code</th>
+                  <th>City</th>
+                  <th>Temperature</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{zip}</td>
+                  <td>{city}</td>
+                  <td>{temperature}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </WeatherDataContext.Provider>
   );
 }
 
