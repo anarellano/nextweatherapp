@@ -3,19 +3,9 @@ import React, { ChangeEvent, FormEvent, useContext, useState } from "react";
 import Navbar from "./navbar";
 import { WeatherDataContext } from "./weatherdatacontext";
 
-export interface WeatherContextType {
-  zip: string;
-  setZip: (zip: any) => void;
-  city: string | null; // value can either be of type City or null.
-  setCity: (city: any) => void;
-  temperature: number | null; //set the data type of the hook
-  setTemperature: (temperature: any) => void; //sets what data type temprature is and the void is to show you that it doesnt return anything
-}
-
 function page() {
-  const [zip, setZip] = useState("");
-  const [city, setCity] = useState(null);
-  const [temperature, setTemperature] = useState(null);
+  const { zip, setZip, city, setCity, temperature, setTemperature } =
+    useContext(WeatherDataContext);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setZip(e.target.value);
@@ -37,47 +27,45 @@ function page() {
   };
 
   return (
-    <WeatherDataContext.Provider value={temperature}>
+    <div className="my-5">
+      <Navbar />
+
       <div className="my-5">
-        <Navbar />
+        <form onSubmit={handleSubmit}>
+          <input
+            value={zip}
+            type="text"
+            onChange={handleChange}
+            className="input-field"
+          />
 
-        <div className="my-5">
-          <form onSubmit={handleSubmit}>
-            <input
-              value={zip}
-              type="text"
-              onChange={handleChange}
-              className="input-field"
-            />
-
-            <button type="submit" className="submit-button">
-              Submit
-            </button>
-          </form>
-        </div>
-
-        {city && temperature && (
-          <div className="my-5">
-            <table>
-              <thead>
-                <tr>
-                  <th>Zip Code</th>
-                  <th>City</th>
-                  <th>Temperature</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{zip}</td>
-                  <td>{city}</td>
-                  <td>{temperature}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
+          <button type="submit" className="submit-button">
+            Submit
+          </button>
+        </form>
       </div>
-    </WeatherDataContext.Provider>
+
+      {city && temperature && (
+        <div className="my-5">
+          <table>
+            <thead>
+              <tr>
+                <th>Zip Code</th>
+                <th>City</th>
+                <th>Temperature</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{zip}</td>
+                <td>{city}</td>
+                <td>{temperature}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
   );
 }
 
