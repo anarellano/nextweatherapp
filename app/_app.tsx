@@ -1,28 +1,28 @@
 import React, { useState } from "react";
-import { WeatherDataContext } from "./weatherdatacontext";
+import { WeatherDataContext, WeatherContextType } from "./weatherdatacontext";
 import Navbar from "./navbar";
 import Page from "./page";
 
-export interface WeatherContextType {
-  zip: string;
-  setZip: (zip: any) => void;
-  city: string | null; // value can either be of type City or null.
-  setCity: (city: any) => void;
-  temperature: number | null; //set the data type of the hook
-  setTemperature: (temperature: any) => void; //sets what data type temprature is and the void is to show you that it doesnt return anything
-}
-
 export default function MyApp() {
-  const [zip, setZip] = useState("");
+  // Declare state variables for weather data
+  const [zip, setZip] = useState<string>("");
   const [city, setCity] = useState<string | null>(null);
   const [temperature, setTemperature] = useState<number | null>(null);
 
+  // The value for the context provider should be an object
+  const providerValue: WeatherContextType = {
+    zip,
+    setZip,
+    city,
+    setCity,
+    temperature,
+    setTemperature,
+  };
+
   return (
-    <WeatherDataContext.Provider
-      value={{ zip, setZip, city, setCity, temperature, setTemperature }}
-    >
-      <Page />
+    <WeatherDataContext.Provider value={providerValue}>
       <Navbar />
+      <Page />
     </WeatherDataContext.Provider>
   );
 }

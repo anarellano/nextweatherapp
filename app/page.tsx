@@ -4,8 +4,10 @@ import Navbar from "./navbar";
 import { WeatherDataContext } from "./weatherdatacontext";
 
 function page() {
+  const weatherContext = useContext(WeatherDataContext);
+
   const { zip, setZip, city, setCity, temperature, setTemperature } =
-    useContext(WeatherDataContext);
+    weatherContext;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setZip(e.target.value);
