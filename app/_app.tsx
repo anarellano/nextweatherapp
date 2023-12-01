@@ -14,8 +14,8 @@ export interface WeatherContextType {
 
 export default function MyApp() {
   const [zip, setZip] = useState("");
-  const [city, setCity] = useState(null);
-  const [temperature, setTemperature] = useState(null);
+  const [city, setCity] = useState<string | null>(null);
+  const [temperature, setTemperature] = useState<number | null>(null);
 
   return (
     <WeatherDataContext.Provider
